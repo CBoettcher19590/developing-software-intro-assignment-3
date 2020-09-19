@@ -150,8 +150,10 @@ export function calculateHouseRequirements(
     const studs = accountForWaste((wall1.studs + wall2.studs) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
+
+    //Changed "Beams" to "Posts" to reflect change Gerald wants
     return {
         studs: studs,
-        beams: beams,
+        posts: beams, 
     };
 }

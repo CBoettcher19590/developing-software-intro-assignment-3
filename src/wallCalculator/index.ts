@@ -32,10 +32,11 @@ function getStudsInLength(inches: number) {
 }
 
 function getBoardsInLength(inches: number): number {
-    const plates = getPlatesInLength(inches);
+    // Took plates out of this function so we can return them separatly
+    // const plates = getPlatesInLength(inches);
     const studs = getStudsInLength(inches);
 
-    return plates + studs;
+    return studs;
 }
 
 function getRequiredBeamsInLength(inches: number) {
@@ -118,11 +119,14 @@ function buildWall(inches: number) {
     const studs =
         getBoardsInLength(FULL_BOARD_SECTION_SIZE) * fullSections +
         getBoardsInLength(lastSectionSize);
+    const plates = getPlatesInLength(inches);
 
     return {
         function: "buildWall",
         inches,
         studs: studs,
+        // made function return plates as well
+        plates: plates,
         beams: requiredBeams,
     };
 }
@@ -148,12 +152,15 @@ export function calculateHouseRequirements(
     const wall2 = buildWall(innerLengthOfHouse);
 
     const studs = accountForWaste((wall1.studs + wall2.studs) * 2);
+    const plates = accountForWaste((wall1.plates + wall2.plates) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
 
     //Changed "Beams" to "Posts" to reflect change Gerald wants
     return {
         studs: studs,
-        posts: beams, 
+        plates: plates,
+        posts: beams,
+     
     };
 }

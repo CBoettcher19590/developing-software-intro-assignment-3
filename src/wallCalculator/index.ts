@@ -16,8 +16,9 @@ function convertFeetToInches(feet: number) {
 
 function getPlatesInLength(inches: number) {
     // devide the length by 96 inches (8 feet) and round up
-    // multiply by two because we're doing the top and bottom in one calculation
-    return Math.ceil(inches / BOARD_LENGTH) * 2;
+    // multiply by THREE because we're doing the 2 rows of top plates, 
+    //   and 1 row of bottom plates
+    return Math.ceil(inches / BOARD_LENGTH) * 3;
 }
 
 function getStudsInLength(inches: number) {
@@ -138,7 +139,8 @@ function accountForWaste(items: number): number {
 
 export function calculateHouseRequirements(
     widthInFeet: number,
-    lengthInFeet: number
+    lengthInFeet: number,
+    unit: string
 ) {
     // convert feet to inches
     const outerWidthOfHouse = convertFeetToInches(widthInFeet);
@@ -161,6 +163,7 @@ export function calculateHouseRequirements(
         studs: studs,
         plates: plates,
         posts: beams,
+        unit_Of_Measuremeant: unit
      
     };
 }

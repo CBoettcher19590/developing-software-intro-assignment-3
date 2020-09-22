@@ -1,4 +1,4 @@
-import { Arguments, Argv } from "yargs";
+import { Arguments, Argv, choices } from "yargs";
 import { calculateHouseRequirements } from "../wallCalculator";
 
 export function calcWoodNeeded(yargs: Argv): void {
@@ -18,13 +18,21 @@ export function calcWoodNeeded(yargs: Argv): void {
                 type: "number",
                 alias: "w",
                 description: "The width of the house",
+                // choices: ["in", "ft"]
             },
 
             length: {
                 type: "number",
                 alias: "l",
                 description: "The length of the house",
+                // choices: ["in", "ft"]
             },
+            unit: {
+                type: "string",
+                alias: "u",
+                description: "The units given, either Inches or Feet",
+                choices: ["in", "ft"]
+            }
         },
 
         // define the function we want to run once the arguments are parsed
@@ -34,12 +42,15 @@ export function calcWoodNeeded(yargs: Argv): void {
                 length: number;
                 w: number;
                 l: number;
+                unit: string 
+                u: string;
             }>
         ) {
             
             const requirements = calculateHouseRequirements(
                 args.width,
-                args.length
+                args.length,
+                args.unit
             );
 
             console.log( requirements );

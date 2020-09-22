@@ -14,6 +14,21 @@ function convertFeetToInches(feet: number) {
     return feet * 12;
 }
 
+//created a function to convert inches to feet
+
+export default function convertInchesToFeet(inches:number):any{
+    //if we can get a round number then the top half of the if statement will run
+    if(inches % 12 === 0){
+        return {feet: inches / 12};
+    //otherwise it will return feet and inches
+    } else {
+        return {
+          feet: Math.floor(inches/12),
+          inches: inches%12
+        }
+    } 
+}
+
 function getPlatesInLength(inches: number) {
     // devide the length by 96 inches (8 feet) and round up
     // multiply by THREE because we're doing the 2 rows of top plates, 
@@ -142,10 +157,17 @@ export function calculateHouseRequirements(
     lengthInFeet: number,
     unit: string
 ) {
-    // convert feet to inches
-    const outerWidthOfHouse = convertFeetToInches(widthInFeet);
-    const outerLengthOfHouse = convertFeetToInches(lengthInFeet);
 
+
+    //only converting the measurement to inches if Gerald has specified
+    if(unit === "in"){
+        let outerWidthOfHouse = convertFeetToInches(widthInFeet);
+        let outerLengthOfHouse = convertFeetToInches(lengthInFeet);
+    } else{   
+        var outerWidthOfHouse = widthInFeet;
+        var outerLengthOfHouse = lengthInFeet;
+    }
+ 
     // calculate the space inbetween corner beams
     const innerWidthOfHouse = outerWidthOfHouse - BEAM_WIDTH * 2;
     const innerLengthOfHouse = outerLengthOfHouse - BEAM_WIDTH * 2;
@@ -163,7 +185,7 @@ export function calculateHouseRequirements(
         studs: studs,
         plates: plates,
         posts: beams,
-        unit_Of_Measuremeant: unit
+        Unit_Of_Measuremeant: unit
      
     };
 }

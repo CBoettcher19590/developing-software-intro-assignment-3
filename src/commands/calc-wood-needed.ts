@@ -1,5 +1,6 @@
 import { Arguments, Argv, choices } from "yargs";
 import { calculateHouseRequirements } from "../wallCalculator";
+import { Houses } from '../house/houses'
 
 export function calcWoodNeeded(yargs: Argv): void {
     
@@ -32,6 +33,11 @@ export function calcWoodNeeded(yargs: Argv): void {
                 alias: "u",
                 description: "The units given, either Inches or Feet",
                 choices: ["in", "ft"]
+            },
+            name: {
+                type: "string",
+                alias: "n",
+                descrioption: "The name that you use to look up a saved house"
             }
         },
 
@@ -44,17 +50,20 @@ export function calcWoodNeeded(yargs: Argv): void {
                 l: number;
                 unit: string 
                 u: string;
+                name:string;
+                n: string;
             }>
         ) {
             
             const requirements = calculateHouseRequirements(
                 args.width,
                 args.length,
-                args.unit
+                args.unit,
+                args.name
             );
 
             console.log( requirements );
-
+        
         }
     );
 }

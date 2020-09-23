@@ -14,6 +14,7 @@ function convertFeetToInches(feet: number) {
     return feet * 12;
 }
 
+
 //created a function to convert inches to feet
 
 export default function convertInchesToFeet(inches:number):any{
@@ -153,19 +154,26 @@ function accountForWaste(items: number): number {
 }
 
 export function calculateHouseRequirements(
-    widthInFeet: number,
-    lengthInFeet: number,
-    unit: string
-) {
+    //Changed names of parameters to better reflect what they are
+    widthInputed: number,
+    lengthInputed: number,
+    unit: string,
+    //name is optional
+    name?: string
+) {    
+    
+    var outerLengthOfHouse;
+    var outerWidthOfHouse;
 
-
-    //only converting the measurement to inches if Gerald has specified
-    if(unit === "in"){
-        let outerWidthOfHouse = convertFeetToInches(widthInFeet);
-        let outerLengthOfHouse = convertFeetToInches(lengthInFeet);
-    } else{   
-        var outerWidthOfHouse = widthInFeet;
-        var outerLengthOfHouse = lengthInFeet;
+    if(unit === "ft"){
+    //only converting to inches if it isnt already in inches
+    console.log("ft test");
+    outerWidthOfHouse = convertFeetToInches(widthInputed);
+    outerLengthOfHouse = convertFeetToInches(lengthInputed);
+    } else{
+        console.log("inches test");
+        outerWidthOfHouse = widthInputed;
+        outerLengthOfHouse = lengthInputed;
     }
  
     // calculate the space inbetween corner beams
@@ -179,13 +187,12 @@ export function calculateHouseRequirements(
     const plates = accountForWaste((wall1.plates + wall2.plates) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
-
+    const message:string = "Here is the total amount of lumber needed for " + name + "'s project: ";
     //Changed "Beams" to "Posts" to reflect change Gerald wants
+    console.log(message);
     return {
         studs: studs,
         plates: plates,
-        posts: beams,
-        Unit_Of_Measuremeant: unit
-     
+        posts: beams
     };
 }

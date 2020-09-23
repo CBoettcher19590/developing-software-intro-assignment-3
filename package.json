@@ -1,25 +1,22 @@
 {
   "name": "class5-live",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "tsc",
     "start": "node dist/index.js",
+
     "prestart:dev": "npm run build",
-    "start:dev": "node dist/index.js",
+    "start:dev": "npm run start",
+    "start:dev:notest": "npm run build:compile && npm run start",
+    
     "build": "npm run build:lint && npm run build:prettier && npm run build:compile",
-    "build:lint": "npx eslint src/**/*.ts --ext .ts",
-    "build:prettier": "npx prettier --check src/**/*.ts",
-    "prestart:dev:fix": "npm run build:fix",
-    "start:dev:fix": "node dist/index.js",
-    "build:fix": "npm run build:lint:fix && npm run build:prettier:fix && npm run build:compile",
-    "build:lint:fix": "npx eslint src/**/*.ts --ext .ts --fix",
-    "build:prettier:fix": "npx prettier --write src/**/*.ts",
-    "build:compile": "tsc",
-    "start:dev:notest": "npm run build:compile && node dist/index.js"
+    "build:lint": "eslint src/**/*.ts --ext .ts --fix",
+    "build:prettier": "prettier --write src/**/*.ts",
+    
+    "build:compile": "tsc"
   },
-  "author": "Bradley Holbrook",
+  "author": "Colby Boettcher",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^14.10.3",

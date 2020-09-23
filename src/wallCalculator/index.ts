@@ -14,25 +14,24 @@ function convertFeetToInches(feet: number) {
     return feet * 12;
 }
 
-
 //created a function to convert inches to feet
 
-export default function convertInchesToFeet(inches:number):any{
+export default function convertInchesToFeet(inches: number): any {
     //if we can get a round number then the top half of the if statement will run
-    if(inches % 12 === 0){
-        return {feet: inches / 12};
-    //otherwise it will return feet and inches
+    if (inches % 12 === 0) {
+        return { feet: inches / 12 };
+        //otherwise it will return feet and inches
     } else {
         return {
-          feet: Math.floor(inches/12),
-          inches: inches%12
-        }
-    } 
+            feet: Math.floor(inches / 12),
+            inches: inches % 12,
+        };
+    }
 }
 
 function getPlatesInLength(inches: number) {
     // devide the length by 96 inches (8 feet) and round up
-    // multiply by THREE because we're doing the 2 rows of top plates, 
+    // multiply by THREE because we're doing the 2 rows of top plates,
     //   and 1 row of bottom plates
     return Math.ceil(inches / BOARD_LENGTH) * 3;
 }
@@ -160,22 +159,21 @@ export function calculateHouseRequirements(
     unit: string,
     //name is optional
     name?: string
-) {    
-    
-    var outerLengthOfHouse;
-    var outerWidthOfHouse;
+) {
+    let outerLengthOfHouse;
+    let outerWidthOfHouse;
 
-    if(unit === "ft"){
-    //only converting to inches if it isnt already in inches
-    console.log("ft test");
-    outerWidthOfHouse = convertFeetToInches(widthInputed);
-    outerLengthOfHouse = convertFeetToInches(lengthInputed);
-    } else{
+    if (unit === "ft") {
+        //only converting to inches if it isnt already in inches
+        console.log("ft test");
+        outerWidthOfHouse = convertFeetToInches(widthInputed);
+        outerLengthOfHouse = convertFeetToInches(lengthInputed);
+    } else {
         console.log("inches test");
         outerWidthOfHouse = widthInputed;
         outerLengthOfHouse = lengthInputed;
     }
- 
+
     // calculate the space inbetween corner beams
     const innerWidthOfHouse = outerWidthOfHouse - BEAM_WIDTH * 2;
     const innerLengthOfHouse = outerLengthOfHouse - BEAM_WIDTH * 2;
@@ -187,12 +185,16 @@ export function calculateHouseRequirements(
     const plates = accountForWaste((wall1.plates + wall2.plates) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
-    const message:string = "Here is the total amount of lumber needed for " + name + "'s project: ";
+    const message: string =
+        "Here is the total amount of lumber needed for " +
+        name +
+        "'s project: ";
+
     //Changed "Beams" to "Posts" to reflect change Gerald wants
     console.log(message);
     return {
         studs: studs,
         plates: plates,
-        posts: beams
+        posts: beams,
     };
 }

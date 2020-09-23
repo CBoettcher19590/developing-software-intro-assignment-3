@@ -1,12 +1,11 @@
 import { Arguments, Argv, choices } from "yargs";
 import { calculateHouseRequirements } from "../wallCalculator";
-import { Houses } from '../house/houses'
+import { Houses } from "../house/houses";
+import fs = require("fs");
 
 export function calcWoodNeeded(yargs: Argv): void {
-    
     // create a new yargs "command"
     yargs.command(
-        
         // name the command with no spaces
         "calc-wood-needed",
 
@@ -18,21 +17,19 @@ export function calcWoodNeeded(yargs: Argv): void {
             width: {
                 type: "number",
                 alias: "w",
-                description: "The width of the house",
-                // choices: ["in", "ft"]
+                description: "The width of the house"
             },
 
             length: {
                 type: "number",
                 alias: "l",
-                description: "The length of the house",
-                // choices: ["in", "ft"]
+                description: "The length of the house"
             },
             unit: {
                 type: "string",
                 alias: "u",
                 description: "The units given, either Inches or Feet",
-                choices: ["in", "ft"]
+                choices: ["in", "ft"],
             },
             name: {
                 type: "string",
@@ -48,13 +45,12 @@ export function calcWoodNeeded(yargs: Argv): void {
                 length: number;
                 w: number;
                 l: number;
-                unit: string 
+                unit: string;
                 u: string;
-                name:string;
+                name: string;
                 n: string;
             }>
         ) {
-            
             const requirements = calculateHouseRequirements(
                 args.width,
                 args.length,
@@ -62,8 +58,19 @@ export function calcWoodNeeded(yargs: Argv): void {
                 args.name
             );
 
-            console.log( requirements );
-        
+
+            // Here we create a House using the infomation that we gathered from the input
+            const house = Houses.create(args.name);
+
+            //Then we need to assign the width, and length
+            house.width = args.width;
+            house.length = args.length;
+
+            //And now we are able to save this house.
+            // Houses.save(house);
+
+
+            console.log(requirements);
         }
     );
 }

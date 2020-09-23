@@ -2,11 +2,12 @@
 // solved the complexities of parsing command line arguments
 import yargs = require('yargs');
 import { calcWoodNeeded } from './commands/calc-wood-needed';
-import { House } from './house';
-import { Houses } from './house/houses';
+import { findSavedHouse } from './commands/get-all-houses';
+
 
 calcWoodNeeded( yargs );
 
+findSavedHouse( yargs );
 
 // tell yargs to include the --help flag
 yargs.help();

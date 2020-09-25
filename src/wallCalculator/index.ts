@@ -14,10 +14,26 @@ function convertFeetToInches(feet: number) {
     return feet * 12;
 }
 
+//created a function to convert inches to feet
+
+export default function convertInchesToFeet(inches: number): any {
+    //if we can get a round number then the top half of the if statement will run
+    if (inches % 12 === 0) {
+        return { feet: inches / 12 };
+        //otherwise it will return feet and inches
+    } else {
+        return {
+            feet: Math.floor(inches / 12),
+            inches: inches % 12,
+        };
+    }
+}
+
 function getPlatesInLength(inches: number) {
     // devide the length by 96 inches (8 feet) and round up
-    // multiply by two because we're doing the top and bottom in one calculation
-    return Math.ceil(inches / BOARD_LENGTH) * 2;
+    // multiply by THREE because we're doing the 2 rows of top plates,
+    //   and 1 row of bottom plates
+    return Math.ceil(inches / BOARD_LENGTH) * 3;
 }
 
 function getStudsInLength(inches: number) {
@@ -32,10 +48,11 @@ function getStudsInLength(inches: number) {
 }
 
 function getBoardsInLength(inches: number): number {
-    const plates = getPlatesInLength(inches);
+    // Took plates out of this function so we can return them separatly
+    // const plates = getPlatesInLength(inches);
     const studs = getStudsInLength(inches);
 
-    return plates + studs;
+    return studs;
 }
 
 function getRequiredBeamsInLength(inches: number) {
@@ -118,11 +135,14 @@ function buildWall(inches: number) {
     const studs =
         getBoardsInLength(FULL_BOARD_SECTION_SIZE) * fullSections +
         getBoardsInLength(lastSectionSize);
+    const plates = getPlatesInLength(inches);
 
     return {
         function: "buildWall",
         inches,
         studs: studs,
+        // made function return plates as well
+        plates: plates,
         beams: requiredBeams,
     };
 }
@@ -133,12 +153,24 @@ function accountForWaste(items: number): number {
 }
 
 export function calculateHouseRequirements(
-    widthInFeet: number,
-    lengthInFeet: number
+    //Changed names of parameters to better reflect what they are
+    widthInputed: number,
+    lengthInputed: number,
+    unit: string,
+    //name is optional
+    name?: string
 ) {
-    // convert feet to inches
-    const outerWidthOfHouse = convertFeetToInches(widthInFeet);
-    const outerLengthOfHouse = convertFeetToInches(lengthInFeet);
+    let outerLengthOfHouse;
+    let outerWidthOfHouse;
+
+    if (unit === "ft") {
+        //only converting to inches if it isnt already in inches
+        outerWidthOfHouse = convertFeetToInches(widthInputed);
+        outerLengthOfHouse = convertFeetToInches(lengthInputed);
+    } else {
+        outerWidthOfHouse = widthInputed;
+        outerLengthOfHouse = lengthInputed;
+    }
 
     // calculate the space inbetween corner beams
     const innerWidthOfHouse = outerWidthOfHouse - BEAM_WIDTH * 2;
@@ -148,10 +180,15 @@ export function calculateHouseRequirements(
     const wall2 = buildWall(innerLengthOfHouse);
 
     const studs = accountForWaste((wall1.studs + wall2.studs) * 2);
+    const plates = accountForWaste((wall1.plates + wall2.plates) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
-    return {
+    //Changed "Beams" to "Posts" to reflect change Gerald wants
+
+    console
+    return{
         studs: studs,
-        beams: beams,
+        plates: plates,
+        posts: beams
     };
 }

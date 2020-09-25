@@ -192,6 +192,7 @@ export function calculateHouseRequirements(
 
     //Changed "Beams" to "Posts" to reflect change Gerald wants
     console.log(message);
+
     return {
         studs: studs,
         plates: plates,

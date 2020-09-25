@@ -1,7 +1,6 @@
-import { Arguments, Argv, choices } from "yargs";
+import { Arguments, Argv } from "yargs";
 import { calculateHouseRequirements } from "../wallCalculator";
 import { Houses } from "../house/houses";
-import fs = require("fs");
 
 export function calcWoodNeeded(yargs: Argv): void {
     // create a new yargs "command"
@@ -17,13 +16,13 @@ export function calcWoodNeeded(yargs: Argv): void {
             width: {
                 type: "number",
                 alias: "w",
-                description: "The width of the house"
+                description: "The width of the house",
             },
 
             length: {
                 type: "number",
                 alias: "l",
-                description: "The length of the house"
+                description: "The length of the house",
             },
             unit: {
                 type: "string",
@@ -34,8 +33,8 @@ export function calcWoodNeeded(yargs: Argv): void {
             name: {
                 type: "string",
                 alias: "n",
-                descrioption: "The name that you use to look up a saved house"
-            }
+                descrioption: "The name that you use to look up a saved house",
+            },
         },
 
         // define the function we want to run once the arguments are parsed
@@ -58,17 +57,14 @@ export function calcWoodNeeded(yargs: Argv): void {
                 args.name
             );
 
-
             // Here we create a House using the infomation that we gathered from the input
             const house = Houses.create(args.name);
-
             //Then we need to assign the width, and length
             house.width = args.width;
             house.length = args.length;
 
             //And now we are able to save this house.
-            // Houses.save(house);
-
+            Houses.save(house);
 
             console.log(requirements);
         }

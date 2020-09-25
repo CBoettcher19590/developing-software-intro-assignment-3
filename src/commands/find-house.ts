@@ -1,17 +1,6 @@
 import { Arguments, Argv } from "yargs";
 import { Houses } from "../house/houses";
-import yargs = require("yargs");
 import { IHouse } from "../house/interface";
-
-//this function is for finding a specific House
-//*Idea*It checks to see if its name matches the name of the argument(when its called)
-// function checkCalledHouse(name: any) {
-//     if (name.name === name.name) {
-//         return name;
-//     }
-// }
-// const houseToFind = yargs.name;
-// console.log(houseToFind);
 
 export function findSavedHouse(yargs: Argv): void {
     //We are creating a new command to find the houses
@@ -37,12 +26,14 @@ export function findSavedHouse(yargs: Argv): void {
         function (
             args: Arguments<{
                 name: string;
+                width: number;
+                length: number;
+                unit: string;
             }>
         ) {
-
+            
             //this function takes the houses and finds the house that was searched for =
             function findHouse(house: any) {
-                
                 return (house: IHouse) => house.name.includes(args.name);
             }
 
@@ -53,12 +44,13 @@ export function findSavedHouse(yargs: Argv): void {
             const allHouses = [...savedHouses.values()];
         
             //here we find the searched for house, and assign it to a variable.
-            const theOne = allHouses.find(findHouse(args.name));
-
-            //Console.log 
-
+           let theOne = allHouses.find(findHouse(args.name));
+    
             console.log('============Saved House============')
             console.log(theOne);
+            console.log('==========TO GET POSTS STUDS AND PLATES PLEASE USE BELOW COMMAND==============');
+            console.log('node dist/index.js calc-wood-needed... followed by the --length, --width,--unit, and --name')
+            console.log('===========================================================================================');
         }
     );
 }

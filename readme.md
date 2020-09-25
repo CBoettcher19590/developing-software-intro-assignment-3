@@ -9,23 +9,35 @@ This program takes the length and width of a house, and returns the number of 2x
 
 ## How to Use this Application
 ------------------------------
-To use this application, you need to pass in two parameters:
+This application has functionality for two commands. You are able to calculate how much wood is needed for a project with the: `calc-wood-needed` command, and you are able to pull up past jobs using their name with the: `find-house` command.
 
-* The Length of the house (preceeded by the `-l` flag)
-* The Width of the house (preceeded by the `-w` flag)
+* To use `calc-wood-needed`, you need to pass in four parameters:
+
+    * The Length of the house (preceeded by the `-l` flag)
+    *   The Width of the house (preceeded by the `-w` flag)
+    * The Unit of measuremant your will be using (preceeded by the `-u` flag)
+        * There are two options `-u ft` or `-u in` to choose from
+    * The Name of the House you will be getting the information for(preceeded by the `-n` flag)
 
 Example:
 
 ```
-node dist/index.js calc-lumber -l 16 -w 24
+node dist/index.js calc-wood-needed -l 16 -w 24 -u ft -n Geralds-House
 ```
-The `calc-lumber` command needs to be included for the application to work!
+* To use `find-house`, you will need to pass in one parameter:
+    * The name of the house you are looking for(preceesed by the `-n` flag)
+
+Example:
+```
+node dist/index.js find-house -n Geralds-House
+```
+
 
 ## Developing Instrucions 
 -------------------------
 Download this application from Github:
 ```
-git clone git@github.com:CBoettcher19590/focuscollege-acsd2020-assignment2.git
+git clone git@github.com:CBoettcher19590/developing-software-intro-assignment-3.git
 ```
 
 If already downloaded:
@@ -43,113 +55,69 @@ To build the program:
 tsc
 ```
 # Scenario
-Gerald has received your email suggesting the rounding change to calculate the number of studs successfully, and was able to use your application. He was very excited that the application worked as he expected, and he has agreed with your math on the stud calculation.
 
-Gerald has an additional problem though. He's been so successful that he's getting bigger and bigger orders and he needs to place additional beams throughout the wall lengths. He would like the application to tell him not only how many 2x4's he needs, but how many 4x4's he needs.
+Gerald is enjoying the application we've written for him, but he's running into a few issues:
 
-Gerald has also mentioned that he finds it difficult to re-write the application code quickly, so he would like to be able to just give it the dimensions.
+* He can't see the results of prior houses without knowing the dimensions
 
+* He can only calculate houses that have exact feet in length (i.e. He can calculate an 8 foot x 8 foot house, but not an 8 foot 3 inch x 8 foot 3 inch house).
 
-
-## Gerald's Requirements
-
-* Each wall has 2x4’s flat against the floor for the length of the edge of a wall.
-
-* Each wall has vertical 2x4’s spaced 16 inches apart (measured from outside edge of a board to the next outside edge; the board is included in the 16 inches)
-
-* Each wall has 2x4’s flat against the ceiling for the length of the edge of a wall.
-
-* Each 4x4 post has a 2x4 on its side as part of the inner wall.
-
-* Gerald buys 10% MORE than a perfect calculation to account for waste.
-
-* Gerald notes that you can’t purchase a partial piece of lumber, so round up a decimal in the final calculation
-
-* 2x4’s are actually 1.5" x 3.5”
-
-* 4x4’s are actually 3.5” x 3.5”
-
-* Gerald only buys 8’ 2x4’s and 4x4's
-
-* Gerlad is not reusing boards once they're cut, and to avoid waste he always places a beam after a full length board as long as doing so doesn't require that he purchase an extra beam
-
-## Example
------------
-
-Gerald has given us an example to help us understand his intentions, using a 16' by 24' house:
-
-* Wall 1 is 16 feet
-* Wall 2 is 24 feet
+To tackle these requirements, a Sr. Developer (Steve) and Product Manager (Rosa) have been brought onto the project, and you will be assisting the them. This repo has code changes from the Sr. Developer and user stories from the Product Manager on how to use his new features, plus his list of tasks for you to do.
 
 
-### Wall 1 ( 16 feet )
+## Rosas Letter
+---
 
-* Wall 1 is under 20 feet, so does not need a post in it.
-
-* 2 boards required for the bottom
-
-* 2 boards required for the top
-
-* 13 vertical boards required in the wall, including the sides
-
-* Total: 17 boards
-
-
-### Wall 2  ( 24 feet )
-
-* Considering the beams, the 24 foot wall will still have a span greater than 20 feet, so we need a beam in the wall
-
-* If we place the beam exactly at 20 feet, we'll have to cut boards on both sides, so he would put the beam at 16 feet so he only has to cut the boards on the short side.
-
-* A 16 foot wall, on one side of the extra beam, requires 17 boards
-
-* The remaining wall (8 feet minus the width of the extra beam, and both outside beams) requires 8 boards. (Gerald did originally say 10, but remembering your email corrected himself).
-
-* Total: 25 boards, 1 extra beam
-
-### House
-
-* The house required posts on the four corners, regardless of size
-
-    * +4 Beams 
-
-* Wall 1 requries 17 boards
-
-    * +16 Boards 
-
-* Wall 2 requires 25 boards and one extra beam
-
-    * +25 boards, +1 Beam 
-
-* Wall 3 is the same as wall 1
-
-    * +16 Boards 
-
-* Wall 4 is the same as wall 2
-
-    * +25 boards, +1 Beam 
-
-    * Perfect calculation: 82 boards, 6 beams
-
-    * Add 10% for Waste
-
-        * +8.2 boards rounded up to 9, +0.6 beams rounded up to 1 
-
-* Total Boards: 91  ---  Total Beams: 7
-
-OUTPUT IN TERMINAL:
-```
-The total number of 2x4's needed is: 91
-The total number of 4x4's needed is: 7 
-```
-## Test Log
-
-| House Measurement | 2x4's Required | 4x4's Required      | Last Test Run By
-| ----------------- | -------------- | ------------------- | ----------------
-| 8 x 8             | 36             | 5                   |  Colby Boettcher
-| 16 x 24           | 91             | 7                   |  Colby Boettcher
+### As Gerald, I need to enter inches into the required measurements on the command line.
 
 ---
+The current application assumes `--width 8` and `--length 8` are feet, but Gerald would like to be able to set the units. In discussion, we came up with severald ideas that would accomplish the goal:
+
+* Allowing --width 8ft 3in as an entry
+* Allowing --width 8'3" as an entry
+* Adding a flag to determine the units (i.e. --width 99 --units inches)
+* Only one method is required, but decimal values are NOT acceptable. (Gerald doesn't want 8.3 to be confused with 8'3").
+
+### As Gerald, I need to be able to recall prior house builds without knowing their dimensions
+---
+The current application requires that I put in a width and length to make a calculation. Gerald would like to be able to assign set of parameters to a customer by name, and then recall the results by that same name.
+
+### As Gerald, I need the application to seperate between studs and plates
+---
+Currently, we return the total number of studs required for the building. Gerald need to know the different between the top/bottom boards (called "plates") and the vertical boards (called "studs"). We also need to calculate two rows of top plates. The bottom plates will still only have one row.
+
+### As Gerald, I need "beams" to be called "posts"
+---
+We call the extra 4x4's "beams", and they need to be called "posts".
+
+
+## Steves Letter
+---
+I need you to create a new epic for this upgrade on the project board, and create the user stories Rosa provided in that epic. Once you've created the stories, add sub-tasks that identify how we're going to accomplish the stories.
+
+After creating your tasks, complete them.
+
+A few additional notes for you:
+
+* Make sure that you update the root readme.md with instructions on how to run the new program.
+
+* Don't change any code in the src/house folder. I haven't finished the tests for it yet and I don't want unexpected outcomes
+
+* Remember to keep your board up to date as you work on the application!
+
+* I've seperated the old calculation into the src/commands folder. Please follow suit if you add any more commands.
+
+## Release Notes
+---
+### Version 3.0.0
+In this version I have added a few features:
+* The ability to find houses useing the `find-house` command
+    * Find-House does not show posts, plates, or studs, it only finds the house and shows its size. *FIXES TO COME IN PATCH*
+* Changed name of beams to posts
+* Created units as a parameter to be put
+* Created Name as a parameter to be passed in
+* Separated plates and studs
+
 
 
 

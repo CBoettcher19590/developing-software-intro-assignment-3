@@ -2,7 +2,7 @@ import { Arguments, Argv } from "yargs";
 import { calculateHouseRequirements } from "../wallCalculator";
 import { Houses } from "../house/houses";
 import buildWall from '../wallCalculator';
-import { STATUS_CODES } from "http";
+import { IWallCalculatorResponse } from "../house/interface";
 
 export function calcWoodNeeded(yargs: Argv): void {
     // create a new yargs "command"
@@ -53,15 +53,6 @@ export function calcWoodNeeded(yargs: Argv): void {
                 n: string;
             }>
         ) {           
-
-        
-
-            Houses.setWallSuppliesCalculator(( inches: number) => {
-                const thisHouse =calculateHouseRequirements(args.length, args.width, args.unit, args.name);
-                return thisHouse;
-
-            });
-
             const requirements = calculateHouseRequirements(
                 args.width,
                 args.length,
@@ -74,17 +65,28 @@ export function calcWoodNeeded(yargs: Argv): void {
             //Then we need to assign the width, and length
             house.width = args.width;
             house.length = args.length;
+            
 
-
+            Houses.setWallSuppliesCalculator(( inches: number) => {
+                const wall1:IWallCalculatorResponse = buildWall(inches);
+            
+                return {
+                    posts: wall1.posts,
+                    studs: wall1.studs,
+                    plates: wall1.plates 
+        
+                }
+            
+            });
             //And now we are able to save this house.
             Houses.save(house);
 
-            
+        
             const message: string =
             "Here is the total amount of lumber needed for " +
             args.name +
             "'s project: ";
-            
+
             console.log(message);
             console.log(requirements);
            

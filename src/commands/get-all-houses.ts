@@ -39,7 +39,10 @@ export function findSavedHouse(yargs: Argv): void {
                 name: string;
             }>
         ) {
+
+            //this function takes the houses and finds the house that was searched for =
             function findHouse(house: any) {
+                
                 return (house: IHouse) => house.name.includes(args.name);
             }
 
@@ -48,8 +51,13 @@ export function findSavedHouse(yargs: Argv): void {
             // Spread syntax allows an expression to be expanded in places where multiple
             // arguments (for function calls) or multiple elements (for array literals) are expected.
             const allHouses = [...savedHouses.values()];
+        
+            //here we find the searched for house, and assign it to a variable.
             const theOne = allHouses.find(findHouse(args.name));
 
+            //Console.log 
+
+            console.log('============Saved House============')
             console.log(theOne);
         }
     );

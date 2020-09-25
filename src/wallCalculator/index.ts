@@ -165,11 +165,9 @@ export function calculateHouseRequirements(
 
     if (unit === "ft") {
         //only converting to inches if it isnt already in inches
-        console.log("ft test");
         outerWidthOfHouse = convertFeetToInches(widthInputed);
         outerLengthOfHouse = convertFeetToInches(lengthInputed);
     } else {
-        console.log("inches test");
         outerWidthOfHouse = widthInputed;
         outerLengthOfHouse = lengthInputed;
     }
@@ -185,17 +183,12 @@ export function calculateHouseRequirements(
     const plates = accountForWaste((wall1.plates + wall2.plates) * 2);
     const beams = accountForWaste((wall1.beams + wall2.beams) * 2 + 4);
 
-    const message: string =
-        "Here is the total amount of lumber needed for " +
-        name +
-        "'s project: ";
-
     //Changed "Beams" to "Posts" to reflect change Gerald wants
-    console.log(message);
 
-    return {
+    console
+    return{
         studs: studs,
         plates: plates,
-        posts: beams,
+        posts: beams
     };
 }
